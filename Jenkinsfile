@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    triggers {
+      cron '*/5 * * * *'
+    }
     stages {
         stage('Build') {
             steps {
                 sh """
-                ssh production sudo docker run --rm -d -p 8080:80 wordpress
+                ping -c 1 staging
+                ping -c 1 production
                 """
             }
         }
